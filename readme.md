@@ -136,6 +136,9 @@ We have intensively borrow codes from the following repositories. Many thanks to
 - [Instant-nsr-pl](https://github.com/bennyguo/instant-nsr-pl)
 - [Segment-Anything](https://github.com/facebookresearch/segment-anything)
 
+## Contact information
+If there are any problems, please contact by the e-mail. (xuchf2023@shanghaitech.edu.cn)
+
 ## Citation
 If you find this repository useful in your project, please cite the following work. :)
 ```
