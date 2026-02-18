@@ -120,12 +120,68 @@ python TeethDreamer.py -b configs/TeethDreamer.yaml \
                        --gpus 0 \
                        --finetune_from ckpt/zero123-xl.ckpt \
                        data.target_dir=path/to/your/target/folder \
-                       data.input_dir=path/to/your/input/folder \
+                       data.inpt_dir=path/to/your/input/folder \
                        data.uid_set_pkl=path/to/your/pkl/file \
                        data.validation_dir=path/to/your/input/folder
 ```
 
 ## Acknowledgement
+
+
+
+
+
+
+
+
+
+
+Hardware configuration currently - - rtx 4060 gpu  , 24 gb ram , i7 13650 HX processor
+
+software toolkit -- 
+1. Version Control: git (with Shallow Cloning)
+What it is: The tool used to download the TeethDreamer code from GitHub.
+
+Why we are using it: It is the standard way to get repository code.
+
+Our Minimal Strategy: Normally, git clone downloads the entire history of every change ever made to the project. We will use a flag called --depth 1 (a "shallow clone"). This tells Git to only download the absolute newest version of the files, skipping the gigabytes of historical data.
+
+2. Environment Manager: python3-venv
+What it is: Python's built-in tool for creating isolated environments.
+
+Why we are using it: If you install AI packages directly to your main Ubuntu system, you risk breaking your OS. A venv keeps the project's dependencies locked inside a single folder.
+
+Our Minimal Strategy: Many AI tutorials recommend Anaconda (Conda). We are completely avoiding Conda. Conda installs a massive base environment that takes up gigabytes of space before you even download your first AI model. venv is built-in, lightweight, and takes up virtually zero space on its own.
+
+3. Package Installer: pip (with Cache Disabled)
+What it is: The official installer for Python packages. We use it to read TeethDreamer's requirements.txt file and download what it needs.
+
+Our Minimal Strategy: By default, when pip downloads a 2.5 GB AI library like PyTorch, it saves a hidden backup copy in a cache folder just in case you want to install it again later. This instantly doubles your storage usage. We will use the --no-cache-dir command. It forces pip to download, install, and immediately delete the installation file.
+
+4. Deep Learning Framework: PyTorch (CUDA 12.1)
+What it is: The engine that runs the AI math. TeethDreamer is built on it.
+
+Why we are using it: We have to, but we must install the specific version built for your hardware.
+
+Our Minimal Strategy: Your RTX 4060 uses Nvidia's Ada Lovelace architecture. It requires a modern version of CUDA (Nvidia's parallel computing platform) to run efficiently. We will install the PyTorch version specifically compiled for CUDA 12.1. We will also install only the GPU version, ensuring we don't accidentally download bloated, unnecessary CPU-only backups.
+
+5. Memory Optimizer: xformers
+What it is: A library developed by Meta that optimizes how AI models calculate "attention."
+
+Why we are using it: While you have plenty of system RAM (24GB), your RTX 4060 only has 8GB of VRAM (Video RAM). Generating 3D assets is incredibly VRAM-heavy. Without optimization, an 8GB card will often hit an "Out of Memory" (OOM) error and crash. xformers heavily reduces VRAM usage during generation, acting as a crucial safety net for your 4060.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
 
