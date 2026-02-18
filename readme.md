@@ -173,7 +173,9 @@ Why we are using it: While you have plenty of system RAM (24GB), your RTX 4060 o
 
 
 
+build-essential & ninja-build: TeethDreamer relies on Neural Surface Reconstruction. These algorithms often compile custom CUDA kernels directly on your machine during setup. We need standard C++ compilers to allow this.
 
+libgl1-mesa-glx & libglib2.0-0: The repository uses an interactive tool (seg_teeth.py) and OpenCV to process images. Without these Linux graphics libraries, OpenCV will instantly crash when trying to open or read an image.
 
 
 
