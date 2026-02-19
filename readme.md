@@ -180,7 +180,130 @@ libgl1-mesa-glx & libglib2.0-0: The repository uses an interactive tool (seg_tee
 
 
 
+Here is the comprehensive, step-by-step guide to replicating your entire high-performance ML environment. This is written in a professional GitHub-style format, suitable for a `README.md` or a personal documentation wiki.
 
+---
+
+# 🚀 Ultra-Performance ML Setup: RTX 4060 + CUDA 13.1 + PyTorch
+
+> **Project Focus:** 3D Teeth Reconstruction from Images & NVIDIA Isaac Sim
+> **The Goal:** Run cutting-edge Neural Graphics Primitives (NGP) with forward-compatible drivers.
+
+---
+
+## 🏗 Phase 1: The Foundation (Driver & CUDA)
+
+To support the **Ada Lovelace** architecture of the **RTX 4060**, we use the latest 590+ driver branch.
+
+1. **System Cleanse:** Remove any conflicting legacy CUDA toolkits.
+```bash
+sudo apt-get --purge remove "*cublas*" "*cufft*" "*curand*" "*cusolver*" "*cusparse*" "*npp*" "*nvgpu*" "cuda*" "nvidia*"
+sudo apt autoremove
+
+```
+
+
+2. **Install CUDA 13.1:** Download the local runfile from NVIDIA.
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/13.1.0/local_installers/cuda_13.1.0_590.48_linux.run
+sudo sh cuda_13.1.0_590.48_linux.run
+
+```
+
+
+*Select "Install" and ensure the Driver (590.48) and Toolkit are checked.*
+3. **Environment Variables:** Add these to your `~/.bashrc`.
+```bash
+export PATH=/usr/local/cuda-13.1/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-13.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CUDA_HOME=/usr/local/cuda-13.1
+
+```
+
+
+
+---
+
+## 🐍 Phase 2: Python Virtual Environment
+
+We keep the ML dependencies isolated to prevent breaking system-wide packages.
+
+```bash
+mkdir ~/dev/3d-teeth-reconstruction
+cd ~/dev/3d-teeth-reconstruction
+python3 -m venv venv
+source venv/bin/activate
+
+# Install PyTorch (Compiled for CUDA 12.1 - our target for the 'bypass')
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+```
+
+---
+
+## 🛠 Phase 3: The "Surgical" PyTorch Bypass
+
+PyTorch 12.1 will normally refuse to compile extensions using CUDA 13.1. We manually disable this hardware gatekeeper.
+
+1. **Locate the File:**
+`./venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py`
+2. **Apply the Fix:**
+Find the function `_check_cuda_version(compiler_name, compiler_version)`. Replace its entire content with the `pass` keyword.
+
+```python
+def _check_cuda_version(compiler_name: str, compiler_version: TorchVersion) -> None:
+    """
+    MANUAL BYPASS: 
+    Allow CUDA 13.1 to work with PyTorch cu121.
+    This prevents the RuntimeError during 'tiny-cuda-nn' compilation.
+    """
+    pass
+
+```
+
+---
+
+## ⚡ Phase 4: Compiling the Graphics Engine
+
+Now we build `tiny-cuda-nn`, the engine required for real-time 3D reconstruction.
+
+```bash
+# ARCH 8.9 targets the RTX 4060 specifically
+# TORCH_DONT_CHECK_COMPILER_ABI=1 ignores GCC version differences
+CUDA_HOME=/usr/local/cuda-13.1 \
+CUDACXX=/usr/local/cuda-13.1/bin/nvcc \
+TCNN_CUDA_ARCHITECTURES=89 \
+TORCH_DONT_CHECK_COMPILER_ABI=1 \
+pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch --no-build-isolation
+
+```
+
+---
+
+## ✅ Phase 5: Verification
+
+Run this script to confirm the GPU is talking to the newly compiled library.
+
+```python
+import torch
+import tinycudann as tcnn
+
+print(f"CUDA Available: {torch.cuda.is_available()}")
+print(f"GPU Model: {torch.cuda.get_device_name(0)}")
+print(f"TCNN successfully loaded.")
+
+```
+
+---
+
+### ⚠️ Troubleshooting Note
+
+If you ever run `pip install --upgrade torch`, the `cpp_extension.py` file will be overwritten. You will need to re-apply the **Phase 3** bypass before compiling any new CUDA extensions.
+
+[Installing PyTorch and CUDA on Ubuntu](https://www.youtube.com/watch?v=eVXl7ajMHAU)
+This video provides a practical walkthrough of setting up a PyTorch environment on Ubuntu, which serves as the foundational baseline for the specialized 13.1 bypass we implemented.
+
+**Would you like me to help you set up the data pipeline for your 3D teeth images next?**
 
 
 
