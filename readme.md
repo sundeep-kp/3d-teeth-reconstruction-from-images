@@ -303,9 +303,15 @@ If you ever run `pip install --upgrade torch`, the `cpp_extension.py` file will 
 [Installing PyTorch and CUDA on Ubuntu](https://www.youtube.com/watch?v=eVXl7ajMHAU)
 This video provides a practical walkthrough of setting up a PyTorch environment on Ubuntu, which serves as the foundational baseline for the specialized 13.1 bypass we implemented.
 
-**Would you like me to help you set up the data pipeline for your 3D teeth images next?**
+Test using demo segmented oral images --
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+python3 TeethDreamer.py -b configs/TeethDreamer.yaml \
+                       --accelerator gpu --devices 1 \
+                       --test ckpt/TeethDreamer.ckpt \
+                       --output ./results \
+                       data.params.test_dir=example/teeth
 
-
+Note:-- make sure to close any ram and gpu intensive programs(even chrome) to prevent crashing
 
 
 We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
