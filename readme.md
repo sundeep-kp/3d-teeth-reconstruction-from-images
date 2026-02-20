@@ -334,12 +334,6 @@ Run this command from your project root:
 
 Bash
 cd instant-nsr-pl
-# 1. Reduce samples per ray back to the original safe value
-sed -i 's/num_samples_per_ray: 8192/num_samples_per_ray: 1024/g' configs/neus-blender*.yaml
-sed -i 's/num_samples_per_ray: 2048/num_samples_per_ray: 1024/g' configs/neus-blender*.yaml
-sed -i 's/num_samples_per_ray: 1024/num_samples_per_ray: 8192/g' configs/neus-blender*.yaml
-sed -i 's/max_train_num_rays: 2048/max_train_num_rays: 8192/g' configs/neus-blender*.yaml
-sed -i 's/ray_chunk: 2048/ray_chunk: 512/g' configs/neus-blender*.yaml
 
 # 2. Reduce the maximum concurrent rays
 sed -i 's/max_train_num_rays: 8192/max_train_num_rays: 2048/g' configs/neus-blender*.yaml
