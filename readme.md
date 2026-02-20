@@ -335,6 +335,10 @@ Run this command from your project root:
 Bash
 cd instant-nsr-pl
 
+sed -i '1i #include <thrust/functional.h>' *.cu
+sed -i 's/cub::Equality()/thrust::equal_to<int>()/g' *.cu
+sed -i 's/max_train_num_rays: 8192/max_train_num_rays: 2048/g' configs/neus-blender*.yaml
+sed -i 's/ray_chunk: 4096/ray_chunk: 2048/g' configs/neus-blender*.yaml
 # Reconstruct the mesh
 # --img points to one of the generated PNGs in your results folder
 python run.py --img ../results/<name of upper/lower generated image>.png \
@@ -342,6 +346,14 @@ python run.py --img ../results/<name of upper/lower generated image>.png \
               --dir ../results/reconstruction/ \
               --normal \
               --rembg
+
+
+
+
+
+
+
+              
 
 We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
 
