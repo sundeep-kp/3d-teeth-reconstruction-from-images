@@ -314,6 +314,35 @@ python3 TeethDreamer.py -b configs/TeethDreamer.yaml \
 Note:-- make sure to close any ram and gpu intensive programs(even chrome) to prevent crashing
 
 
+next --
+Locate the file on your machine:
+The file upper.pkl should be inside your local instant-nsr-pl/datasets/ folder.
+Check if it exists by running:
+
+Bash
+ls ~/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/datasets/upper.pkl
+2. Edit the code to fix the path:
+You need to change the line in blender.py to point to your local project folder instead of the developer's server.
+
+Bash
+nano instant-nsr-pl/datasets/blender.py
+
+Stage 2: Turning PNGs into a 3D Mesh
+Now you use the instant-nsr-pl folder. This is the part that uses the tiny-cuda-nn engine we worked so hard to compile. It will "shrink-wrap" a 3D shape around those PNGs.
+
+Run this command from your project root:
+
+Bash
+cd instant-nsr-pl
+
+# Reconstruct the mesh
+# --img points to one of the generated PNGs in your results folder
+python run.py --img ../results/<name of upper/lower generated image>.png \
+              --cpu $(nproc) \
+              --dir ../results/reconstruction/ \
+              --normal \
+              --rembg
+
 We have intensively borrow codes from the following repositories. Many thanks to the authors for sharing their codes.
 
 - [stable diffusion](https://github.com/CompVis/stable-diffusion)
