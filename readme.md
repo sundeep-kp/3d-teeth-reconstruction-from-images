@@ -334,10 +334,14 @@ Run this command from your project root:
 
 Bash
 cd instant-nsr-pl
+# 1. Reduce samples per ray back to the original safe value
+sed -i 's/num_samples_per_ray: 8192/num_samples_per_ray: 1024/g' configs/neus-blender*.yaml
+sed -i 's/num_samples_per_ray: 2048/num_samples_per_ray: 1024/g' configs/neus-blender*.yaml
 
-sed -i '1i #include <thrust/functional.h>' *.cu
-sed -i 's/cub::Equality()/thrust::equal_to<int>()/g' *.cu
+# 2. Reduce the maximum concurrent rays
 sed -i 's/max_train_num_rays: 8192/max_train_num_rays: 2048/g' configs/neus-blender*.yaml
+
+# 3. Reduce the chunk processing size
 sed -i 's/ray_chunk: 4096/ray_chunk: 2048/g' configs/neus-blender*.yaml
 # Reconstruct the mesh
 # --img points to one of the generated PNGs in your results folder
