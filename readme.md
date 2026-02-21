@@ -340,6 +340,33 @@ sed -i 's/max_train_num_rays: 8192/max_train_num_rays: 2048/g' configs/neus-blen
 
 # 3. Reduce the chunk processing size
 sed -i 's/ray_chunk: 4096/ray_chunk: 2048/g' configs/neus-blender*.yaml
+
+
+
+```
+***understanding the configurations --- Which YAML file run.py actually uses
+
+If --real is not provided:
+
+if normal:
+    config='configs/neus-blender-normal.yaml'
+    os.system(f'python tools.py ... --normal' + rembg + real)
+else:
+    config='configs/neus-blender.yaml'
+    os.system(f'python tools.py ...')
+
+So:
+
+Without both --normal and --real, it uses configs/neus-blender.yaml
+
+With --normal, it uses configs/neus-blender-normal.yaml
+
+--real changes pose paths and the command line flags, and also uses high image resolution (1024×1024) ****
+
+
+```
+
+
 # Reconstruct the mesh
 # --img points to one of the generated PNGs in your results folder
 python run.py --img ../results/<name of upper/lower generated image>.png \
