@@ -68,12 +68,8 @@ def click_seg(image_path, mask_path):
     img = cv2.imread(image_path)
     img = np.asarray(img.data)
     out = []
-
-    slice_width = img.shape[0]   # or manually 512
-
     for i in range(16):
-        image = cv2.cvtColor(img[:, i*slice_width:(i+1)*slice_width, :].copy(), cv2.COLOR_BGR2RGB)
-
+        image = cv2.cvtColor(img[:, i*256:(i+1)*256, :].copy(), cv2.COLOR_BGR2RGB)
         clicks = []
         labels = []
         predictor.set_image(image)

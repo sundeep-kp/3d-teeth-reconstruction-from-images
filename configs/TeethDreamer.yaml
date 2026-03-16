@@ -3,7 +3,7 @@ model:
   target: ldm.models.diffusion.teeth_dreamer.TeethDreamer
   params:
     view_num: 8
-    image_size: 512
+    image_size: 256
     cfg_scale: 2.0
     output_num: 8
     batch_view_num: 4
