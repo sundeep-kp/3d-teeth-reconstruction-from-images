@@ -1,0 +1,225 @@
+(venv) sundeep@sunking:~/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl$ python run.py     --img ../results/1832_upper_cond_000_000_000_000.png     --cpu 4     --dir ../results/reconstruction     --rembg    
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/utils.py:57: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @custom_fwd(cast_inputs=torch.float32)
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/utils.py:64: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  def backward(ctx, g):  # pylint: disable=arguments-differ
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/network_utils.py:108: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(False)
+Global seed set to 42
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+Using 16bit None Automatic Mixed Precision (AMP)
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/native_amp.py:47: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler()
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1)` was configured so 1 batch will be used.
+[rank: 0] Global seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+[W220 22:22:15.044268411 CUDAAllocatorConfig.h:28] Warning: expandable_segments not supported on this platform (function operator())
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name  | Type             | Params
+-------------------------------------------
+0 | cos   | CosineSimilarity | 0     
+1 | model | NeuSModel        | 14.0 M
+-------------------------------------------
+14.0 M    Trainable params
+0         Non-trainable params
+14.0 M    Total params
+27.955    Total estimated model params size (MB)
+Epoch 0: : 0it [00:00, ?it/s]/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-p
+ackages/torch/utils/cpp_extension.py:1913: UserWarning: TORCH_CUDA_ARCH_LIST is 
+not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 2053, in _run_ninja_build
+[rank0]:     subprocess.run(
+[rank0]:   File "/usr/lib/python3.10/subprocess.py", line 526, in run
+[rank0]:     raise CalledProcessError(retcode, process.args,
+[rank0]: subprocess.CalledProcessError: Command '['ninja', '-v']' returned non-zero exit status 2.
+
+[rank0]: The above exception was the direct cause of the following exception:
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/launch.py", line 129, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/launch.py", line 118, in main
+[rank0]:     trainer.fit(system, datamodule=dm)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=self.ckpt_path)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1103, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1182, in _run_stage
+[rank0]:     self._run_train()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1205, in _run_train
+[rank0]:     self.fit_loop.run()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+[rank0]:     self.advance(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+[rank0]:     self._outputs = self.epoch_loop.run(self._data_fetcher)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+[rank0]:     self.advance(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 204, in advance
+[rank0]:     response = self.trainer._call_lightning_module_hook("on_train_batch_start", batch, batch_idx)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1347, in _call_lightning_module_hook
+[rank0]:     output = fn(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/systems/base.py", line 57, in on_train_batch_start
+[rank0]:     update_module_step(self.model, self.current_epoch, self.global_step)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/systems/utils.py", line 351, in update_module_step
+[rank0]:     m.update_step(epoch, global_step)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/neus.py", line 109, in update_step
+[rank0]:     self.occupancy_grid.every_n_step(step=global_step, occ_eval_fn=occ_eval_fn, occ_thre=self.config.get('grid_prune_occ_thre', 0.01))
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/grid.py", line 271, in every_n_step
+[rank0]:     self._update(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/grid.py", line 224, in _update
+[rank0]:     x = contract_inv(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/contraction.py", line 101, in contract_inv
+[rank0]:     ctype = type.to_cpp_version()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/contraction.py", line 62, in to_cpp_version
+[rank0]:     return _C.ContractionTypeGetter(self.value)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/__init__.py", line 11, in call_cuda
+[rank0]:     from ._backend import _C
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/_backend.py", line 85, in <module>
+[rank0]:     _C = load(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1263, in load
+[rank0]:     return _jit_compile(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1670, in _jit_compile
+[rank0]:     _write_ninja_file_and_build_library(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1782, in _write_ninja_file_and_build_library
+[rank0]:     _run_ninja_build(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 2069, in _run_ninja_build
+[rank0]:     raise RuntimeError(message) from e
+[rank0]: RuntimeError: Error building extension 'nerfacc_cuda': [1/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output render_transmittance_cub.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu -o render_transmittance_cub.cuda.o 
+[rank0]: FAILED: [code=2] render_transmittance_cub.cuda.o 
+[rank0]: /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output render_transmittance_cub.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu -o render_transmittance_cub.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu(25): error: namespace "cub" has no member "Equality"
+[rank0]:       do { size_t temp_storage_bytes = 0; cub::DeviceScan::ExclusiveSumByKey(nullptr, temp_storage_bytes, keys, input, output, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); auto& caching_allocator = *::c10::cuda::CUDACachingAllocator::get(); auto temp_storage = caching_allocator.allocate(temp_storage_bytes); cub::DeviceScan::ExclusiveSumByKey(temp_storage.get(), temp_storage_bytes, keys, input, output, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); 
+[rank0]:                                                                                                                                                ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu(25): error: namespace "cub" has no member "Equality"
+[rank0]:       do { size_t temp_storage_bytes = 0; cub::DeviceScan::ExclusiveSumByKey(nullptr, temp_storage_bytes, keys, input, output, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); auto& caching_allocator = *::c10::cuda::CUDACachingAllocator::get(); auto temp_storage = caching_allocator.allocate(temp_storage_bytes); cub::DeviceScan::ExclusiveSumByKey(temp_storage.get(), temp_storage_bytes, keys, input, output, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); 
+[rank0]:                                                                                                                                                                                                                                                                                                                                                                                                                                                        ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu(35): error: namespace "cub" has no member "Equality"
+[rank0]:       do { size_t temp_storage_bytes = 0; cub::DeviceScan::ExclusiveScanByKey(nullptr, temp_storage_bytes, keys, input, output, Product(), 1.0f, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); auto& caching_allocator = *::c10::cuda::CUDACachingAllocator::get(); auto temp_storage = caching_allocator.allocate(temp_storage_bytes); cub::DeviceScan::ExclusiveScanByKey(temp_storage.get(), temp_storage_bytes, keys, input, output, Product(), 1.0f, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); 
+[rank0]:                                                                                                                                                                  ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu(35): error: namespace "cub" has no member "Equality"
+[rank0]:       do { size_t temp_storage_bytes = 0; cub::DeviceScan::ExclusiveScanByKey(nullptr, temp_storage_bytes, keys, input, output, Product(), 1.0f, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); auto& caching_allocator = *::c10::cuda::CUDACachingAllocator::get(); auto temp_storage = caching_allocator.allocate(temp_storage_bytes); cub::DeviceScan::ExclusiveScanByKey(temp_storage.get(), temp_storage_bytes, keys, input, output, Product(), 1.0f, num_items, cub::Equality(), at::cuda::getCurrentCUDAStream()); 
+[rank0]:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ^
+
+[rank0]: 4 errors detected in the compilation of "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance_cub.cu".
+[rank0]: [2/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output contraction.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/contraction.cu -o contraction.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: [3/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output cdf.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/cdf.cu -o cdf.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/cdf.cu(74): warning #181-D: argument is incompatible with corresponding format string conversion (expected type "double" but argument has type "c10::Half")
+[rank0]:           printf("Error: %d %d %f\n", j, num_bins, weights_sum);
+[rank0]:                                                    ^
+[rank0]:           detected during instantiation of "void cdf_resampling_kernel(uint32_t, const int *, const scalar_t *, const scalar_t *, const scalar_t *, const int *, scalar_t *, scalar_t *) [with scalar_t=c10::Half]" at line 186
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: [4/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output intersection.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/intersection.cu -o intersection.cuda.o 
+[rank0]: [5/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output ray_marching.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/ray_marching.cu -o ray_marching.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/ray_marching.cu(121): warning #177-D: variable "steps" was declared but never referenced
+[rank0]:           int steps = packed_info[i * 2 + 1];
+[rank0]:               ^
+
+[rank0]: [6/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output render_transmittance.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_transmittance.cu -o render_transmittance.cuda.o 
+[rank0]: [7/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output render_weight.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/render_weight.cu -o render_weight.cuda.o 
+[rank0]: [8/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output pybind.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/pybind.cu -o pybind.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(114): warning #940-D: missing return statement at end of non-void function "apply_contraction"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/include/helpers_contraction.h(129): warning #940-D: missing return statement at end of non-void function "apply_contraction_inv"
+[rank0]:   }
+[rank0]:   ^
+
+[rank0]: [9/10] /usr/local/cuda-13.1/bin/nvcc --generate-dependencies-with-compile --dependency-output pack.cuda.o.d -DTORCH_EXTENSION_NAME=nerfacc_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda-13.1/include -isystem /usr/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_89,code=compute_89 -gencode=arch=compute_89,code=sm_89 --compiler-options '-fPIC' -O3 -std=c++17 -c /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/pack.cu -o pack.cuda.o 
+[rank0]: /home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/nerfacc/cuda/csrc/pack.cu(41): warning #177-D: variable "base" was declared but never referenced
+[rank0]:       const int base = packed_info[i * 2 + 0];
+[rank0]:                 ^
+
+[rank0]: Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[rank0]: ninja: build stopped: subcommand failed.
+
+Epoch 0: : 0it [00:44, ?it/s]
+[rank0]:[W220 22:23:00.299545334 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+(venv) sundeep@sunking:~/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl$ 
+
+

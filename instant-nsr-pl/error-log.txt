@@ -1,0 +1,67 @@
+(venv) sundeep@sunking:~/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl$ PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python run.py     --img ../results/1832_upper_cond_000_000_000_000.png     --cpu 4     --dir ../results/reconstruction/     --normal     --rembg     --real >error-log.txt 
+Traceback (most recent call last):
+  File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/tools.py", line 155, in <module>
+    image_size = prepare_masked_img(args.input, os.path.join(args.output, 'train'), args.rembg, args.normal, args.real)
+  File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/tools.py", line 91, in prepare_masked_img
+    for i,name in enumerate(os.listdir(img_path)):
+NotADirectoryError: [Errno 20] Not a directory: '../results/1832_upper_cond_000_000_000_000.png'
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/utils.py:57: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @custom_fwd(cast_inputs=torch.float32)
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/utils.py:64: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  def backward(ctx, g):  # pylint: disable=arguments-differ
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/models/network_utils.py:108: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(False)
+Global seed set to 42
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/torch/nn/utils/weight_norm.py:143: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+Using 16bit None Automatic Mixed Precision (AMP)
+/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/plugins/precision/native_amp.py:47: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler()
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1)` was configured so 1 batch will be used.
+[rank: 0] Global seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+[W220 21:40:58.021633395 CUDAAllocatorConfig.h:28] Warning: expandable_segments not supported on this platform (function operator())
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/launch.py", line 129, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/launch.py", line 118, in main
+[rank0]:     trainer.fit(system, datamodule=dm)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=self.ckpt_path)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1042, in _run
+[rank0]:     self._call_setup_hook()  # allow user to setup lightning_module in accelerator environment
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1289, in _call_setup_hook
+[rank0]:     self._call_lightning_datamodule_hook("setup", stage=fn)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 1366, in _call_lightning_datamodule_hook
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/datasets/blender.py", line 197, in setup
+[rank0]:     self.train_dataset = BlenderIterableDataset(self.config, self.config.train_split)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/datasets/blender.py", line 182, in __init__
+[rank0]:     self.setup(config, split)
+[rank0]:   File "/home/sundeep/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl/datasets/blender.py", line 66, in setup
+[rank0]:     with open(os.path.join(self.config.root_dir, f"transforms_{self.split}.json"), 'r') as f:
+[rank0]: FileNotFoundError: [Errno 2] No such file or directory: '../results/reconstruction/1832_upper_cond_000_000_000_000/transforms_train.json'
+[rank0]:[W220 21:40:58.351315938 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+(venv) sundeep@sunking:~/dev/3d-teeth-reconstruction-from-i
+
+
+
+(venv) sundeep@sunking:~/dev/3d-teeth-reconstruction-from-images/instant-nsr-pl$ ls ../results/reconstruction/1832_upper_cond_000_000_000_000/
+test  train  val
+
