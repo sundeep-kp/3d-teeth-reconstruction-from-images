@@ -48,7 +48,7 @@ data:
     validation_dir: /public/home/v-xuchf/Data/Teeth_recon/rendering/256/input # directory of validation data
     test_set_npy: /public_bme/data/v-xuchf/test/splits.npy
     test_dir: /public_bme/data/v-xuchf/test/real
-    batch_size: 16 # change from 60
+    batch_size: 1 # changed from 16 , change from 60
     num_workers: 4
     normal_predict: true
     single_cond: false

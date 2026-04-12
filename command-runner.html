@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeethDreamer Command Runner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #0a1f2e;
+      --bg-2: #114b5f;
+      --bg-3: #1a759f;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-strong: rgba(255, 255, 255, 0.2);
+      --stroke: rgba(255, 255, 255, 0.24);
+      --text: #e9f6ff;
+      --muted: #c0e7ff;
+      --accent: #ffb703;
+      --accent-2: #fb8500;
+      --ok: #7bd389;
+      --warn: #ffd166;
+      --danger: #ff6b6b;
+      --shadow: 0 16px 40px rgba(0, 10, 20, 0.35);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Chakra Petch", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 15% 15%, rgba(255, 183, 3, 0.2), transparent 35%),
+                  radial-gradient(circle at 85% 10%, rgba(251, 133, 0, 0.16), transparent 38%),
+                  linear-gradient(140deg, var(--bg-1), var(--bg-2) 42%, var(--bg-3));
+      overflow-x: hidden;
+    }
+
+    .orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(2px);
+      opacity: 0.45;
+      animation: drift 18s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 320px;
+      height: 320px;
+      left: -80px;
+      top: -40px;
+      background: linear-gradient(130deg, #ffd166, #ffb703);
+    }
+
+    .orb.two {
+      width: 280px;
+      height: 280px;
+      right: -60px;
+      top: 160px;
+      background: linear-gradient(130deg, #90e0ef, #48cae4);
+      animation-delay: -4s;
+    }
+
+    .orb.three {
+      width: 360px;
+      height: 360px;
+      right: 10%;
+      bottom: -130px;
+      background: linear-gradient(130deg, #ff9f1c, #ffbf69);
+      animation-delay: -8s;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-14px) translateX(10px); }
+    }
+
+    .page {
+      width: min(1180px, 94vw);
+      margin: 32px auto 40px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero,
+    .panel {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      animation: rise 450ms ease-out;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.8vw, 2.05rem);
+      letter-spacing: 0.02em;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .status-chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 0.84rem;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 16px;
+      animation: rise 520ms ease-out;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1.02rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input,
+    textarea,
+    select {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 10px;
+      background: rgba(4, 24, 37, 0.54);
+      color: var(--text);
+      padding: 10px 11px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.82rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 118px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.22);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: "Chakra Petch", sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      color: #072033;
+      background: linear-gradient(130deg, var(--accent), var(--accent-2));
+      transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+    }
+
+    button:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24); }
+    button:active { transform: translateY(0); }
+
+    button.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    button.ghost {
+      color: var(--muted);
+      background: transparent;
+    }
+
+    button[disabled] {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .terminal {
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.38);
+      padding: 10px;
+      min-height: 180px;
+      max-height: 320px;
+      overflow: auto;
+      font-family: "IBM Plex Mono", monospace;
+      white-space: pre-wrap;
+      font-size: 0.79rem;
+      line-height: 1.5;
+    }
+
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .err { color: var(--danger); }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        width: min(1180px, 96vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orbs" aria-hidden="true">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <h1>TeethDreamer Bash Command Runner</h1>
+        <p>Separate frontend to build, copy, and execute your strip generation and NeUS reconstruction commands.</p>
+      </div>
+      <div class="status-chip" id="runnerStatus">Runner endpoint not connected</div>
+    </section>
+
+    <section class="panel">
+      <h2>Runner Setup</h2>
+      <div class="row">
+        <label>
+          Runner Endpoint
+          <input id="endpoint" value="http://localhost:8787/run" />
+        </label>
+        <label>
+          Workspace Root
+          <input id="workspaceRoot" value="." />
+        </label>
+        <label>
+          GPU
+          <input id="gpu" value="0" />
+        </label>
+        <label>
+          CPU Threads
+          <input id="cpu" type="number" min="1" value="4" />
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          Test Dir
+          <input id="testDir" value="example/teeth" />
+        </label>
+        <label>
+          Output Dir
+          <input id="outputDir" value="results" />
+        </label>
+        <label>
+          Reconstruction Dir
+          <input id="reconDir" value="../results/reconstruction" />
+        </label>
+        <label>
+          TeethDreamer Config
+          <input id="dreamerCfg" value="configs/TeethDreamer.yaml" />
+        </label>
+      </div>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; text-transform: none; letter-spacing: 0; margin-top: 8px;">
+        <input id="verboseMode" type="checkbox" style="width: auto; margin: 0;" />
+        <span>Verbose Output</span>
+      </label>
+      <div class="hint">This page can run commands only if you expose a small backend endpoint that accepts shell commands. Without it, use Copy buttons and run in terminal.</div>
+      <div class="hint">Quick start: from repository root run <code>python runner.py</code>, then keep endpoint as <code>http://localhost:8787/run</code>.</div>
+    </section>
+
+    <section class="panel">
+      <h2>1. Generate Strip (TeethDreamer)</h2>
+      <textarea id="cmdGenerate" spellcheck="false"></textarea>
+      <div class="actions">
+        <button data-cmd="cmdGenerate" data-cwd="workspace">Run Command</button>
+        <button class="secondary" data-copy="cmdGenerate">Copy</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>2. NeUS Upper + rembg</h2>
+      <textarea id="cmdUpper" spellcheck="false"></textarea>
+      <div class="actions">
+        <button data-cmd="cmdUpper" data-cwd="instant">Run Command</button>
+        <button class="secondary" data-copy="cmdUpper">Copy</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>3. NeUS Lower + rembg</h2>
+      <textarea id="cmdLower" spellcheck="false"></textarea>
+      <div class="actions">
+        <button data-cmd="cmdLower" data-cwd="instant">Run Command</button>
+        <button class="secondary" data-copy="cmdLower">Copy</button>
+        <button class="ghost" id="runAll">Run All Sequentially</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Execution Log</h2>
+      <div class="terminal" id="terminal"></div>
+      <div class="actions">
+        <button class="secondary" id="clearLog">Clear Log</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const fields = {
+      endpoint: document.getElementById("endpoint"),
+      workspaceRoot: document.getElementById("workspaceRoot"),
+      gpu: document.getElementById("gpu"),
+      cpu: document.getElementById("cpu"),
+      testDir: document.getElementById("testDir"),
+      outputDir: document.getElementById("outputDir"),
+      reconDir: document.getElementById("reconDir"),
+      dreamerCfg: document.getElementById("dreamerCfg"),
+      cmdGenerate: document.getElementById("cmdGenerate"),
+      cmdUpper: document.getElementById("cmdUpper"),
+      cmdLower: document.getElementById("cmdLower"),
+      terminal: document.getElementById("terminal"),
+      runnerStatus: document.getElementById("runnerStatus")
+    };
+
+    function log(line, className = "") {
+      const span = document.createElement("span");
+      if (className) span.className = className;
+      span.textContent = line + "\n";
+      fields.terminal.appendChild(span);
+      fields.terminal.scrollTop = fields.terminal.scrollHeight;
+    }
+
+    function formatTime() {
+      const now = new Date();
+      return now.toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function logVerbose(line, className = "") {
+      const isVerbose = document.getElementById("verboseMode").checked;
+      if (!isVerbose && className === "muted") return;
+      const timestamp = `[${formatTime()}]`;
+      log(`${timestamp} ${line}`, className);
+    }
+
+    function buildCommands() {
+      const gpu = fields.gpu.value.trim() || "0";
+      const cpu = fields.cpu.value.trim() || "4";
+      const cfg = fields.dreamerCfg.value.trim() || "configs/TeethDreamer.yaml";
+      const out = fields.outputDir.value.trim() || "results";
+      const testDir = fields.testDir.value.trim() || "example/teeth";
+      const recon = fields.reconDir.value.trim() || "../results/reconstruction";
+
+      fields.cmdGenerate.value = [
+        "python TeethDreamer.py \\",
+        `  -b ${cfg} \\`,
+        `  --gpus ${gpu} \\`,
+        "  --test ckpt/TeethDreamer.ckpt \\",
+        `  --output ${out} \\`,
+        `  data.params.test_dir=${testDir}`
+      ].join("\n");
+
+      fields.cmdUpper.value = [
+        "python run.py \\",
+        `  --img ../${out}/1832_upper_cond_000_000_000_000.png \\`,
+        `  --cpu ${cpu} \\`,
+        `  --dir ${recon} \\`,
+        "  --normal \\",
+        "  --rembg"
+      ].join("\n");
+
+      fields.cmdLower.value = [
+        "python run.py \\",
+        `  --img ../${out}/1832_lower_cond_000_000_000_000.png \\`,
+        `  --cpu ${cpu} \\`,
+        `  --dir ${recon} \\`,
+        "  --normal \\",
+        "  --rembg"
+      ].join("\n");
+    }
+
+    async function runViaEndpoint(command, cwd) {
+      const endpoint = fields.endpoint.value.trim();
+      const root = fields.workspaceRoot.value.trim() || ".";
+      const runCwd = cwd === "instant" ? `${root}/instant-nsr-pl` : root;
+
+      log(`$ ${command}`, "warn");
+      logVerbose(`preparing execution...`, "muted");
+      logVerbose(`endpoint: ${endpoint}`, "muted");
+      logVerbose(`working directory: ${runCwd}`, "muted");
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command, cwd: runCwd })
+        });
+
+        logVerbose(`response status: ${res.status}`, "muted");
+
+        if (!res.ok) {
+          fields.runnerStatus.textContent = "Runner endpoint error";
+          fields.runnerStatus.style.color = "#ffd166";
+          logVerbose(`endpoint responded with error: HTTP ${res.status}`, "err");
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        logVerbose(`response received and parsed`, "muted");
+
+        fields.runnerStatus.textContent = "Runner endpoint connected";
+        fields.runnerStatus.style.color = "#7bd389";
+
+        logVerbose(`response metadata:`, "muted");
+        logVerbose(`  cwd: ${data.cwd}`, "muted");
+        logVerbose(`  exit code: ${data.code ?? "unknown"}`, "muted");
+
+        logVerbose(`stdout (${(data.stdout || "").length} bytes):`, "muted");
+        if (data.stdout) log(data.stdout, "ok");
+        logVerbose(`[end stdout]`, "muted");
+
+        if (data.stderr) {
+          logVerbose(`stderr (${data.stderr.length} bytes):`, "muted");
+          log(data.stderr, "err");
+          logVerbose(`[end stderr]`, "muted");
+        }
+
+        logVerbose(`command completed with exit code ${data.code ?? "unknown"}`, data.code === 0 ? "ok" : "err");
+        return data;
+      } catch (err) {
+        fields.runnerStatus.textContent = "Runner endpoint not connected";
+        fields.runnerStatus.style.color = "#ff6b6b";
+        logVerbose(`runner unavailable: ${err.message}`, "err");
+        log(`Error: Runner unavailable (${err.message}). Copy and run in terminal.`, "err");
+        throw err;
+      }
+    }
+
+    async function copyText(id) {
+      const text = fields[id].value;
+      try {
+        await navigator.clipboard.writeText(text);
+        log(`Copied ${id}`, "ok");
+      } catch (_) {
+        log(`Clipboard blocked. Manually copy from ${id}.`, "warn");
+      }
+    }
+
+    for (const id of ["gpu", "cpu", "testDir", "outputDir", "reconDir", "dreamerCfg"]) {
+      fields[id].addEventListener("input", buildCommands);
+    }
+
+    document.querySelectorAll("button[data-copy]").forEach((btn) => {
+      btn.addEventListener("click", () => copyText(btn.dataset.copy));
+    });
+
+    document.querySelectorAll("button[data-cmd]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const textarea = fields[btn.dataset.cmd];
+        const command = textarea.value.trim();
+        if (!command) return;
+        try {
+          await runViaEndpoint(command, btn.dataset.cwd);
+        } catch (_) {
+          // Already logged.
+        }
+      });
+    });
+
+    document.getElementById("runAll").addEventListener("click", async () => {
+      const queue = [
+        { id: "cmdGenerate", cwd: "workspace" },
+        { id: "cmdUpper", cwd: "instant" },
+        { id: "cmdLower", cwd: "instant" }
+      ];
+
+      for (const item of queue) {
+        try {
+          await runViaEndpoint(fields[item.id].value.trim(), item.cwd);
+        } catch (_) {
+          break;
+        }
+      }
+    });
+
+    document.getElementById("clearLog").addEventListener("click", () => {
+      fields.terminal.textContent = "";
+    });
+
+    buildCommands();
+    log("Ready. Edit paths if needed, then copy or run commands.");
+  </script>
+</body>
+</html>
