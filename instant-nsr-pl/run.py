@@ -21,19 +21,19 @@ def recon(path, out_path, normal=False, rembg=False, real=False, cpu=8):
         real=''
     if normal:
         config='configs/neus-blender-normal.yaml'
-        os.system(f'python tools.py --input {img_path} --output {out_path} --pose {pose} --normal'+rembg+real)
+        os.system(f'python3 tools.py --input {img_path} --output {out_path} --pose {pose} --normal'+rembg+real)
     else:
         config='configs/neus-blender.yaml'
-        os.system(f'python tools.py --input {img_path} --output {out_path} --pose {pose}'+rembg+real)
+        os.system(f'python3 tools.py --input {img_path} --output {out_path} --pose {pose}'+rembg+real)
     
     runs_dir=os.path.join(out_path,'log')
     exp_dir=out_path
     root_dir=out_path
     name=os.path.basename(path).split('.')[0]
     if real:
-        os.system(f'python launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} dataset.img_wh=[1024,1024] dataset.num_workers={cpu}')
+        os.system(f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} dataset.img_wh=[1024,1024] dataset.num_workers={cpu}')
     else:
-        os.system(f'python launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} trainer.max_steps=60000 dataset.num_workers={cpu}')
+        os.system(f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} trainer.max_steps=60000 dataset.num_workers={cpu}')
     
 if __name__=='__main__':
     parser = argparse.ArgumentParser()

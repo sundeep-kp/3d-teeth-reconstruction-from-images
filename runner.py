@@ -29,6 +29,27 @@ WORKSPACE_ROOT = Path(__file__).resolve().parent
 DENTAL_PROJECT_ROOT = WORKSPACE_ROOT / "dental-disease-aiml"
 DENTAL_DATASET_PATH = DENTAL_PROJECT_ROOT / "dental_dataset_15_diseases.csv"
 
+# Detect venv and configure environment
+VENV_BIN = WORKSPACE_ROOT / "venv" / "bin"
+_ENV_WITH_VENV = None
+
+
+def _get_command_env() -> dict[str, str]:
+    """Return environment with venv prepended to PATH."""
+    global _ENV_WITH_VENV
+    if _ENV_WITH_VENV is not None:
+        return _ENV_WITH_VENV
+    
+    env = os.environ.copy()
+    
+    # Prepend venv bin to PATH if it exists
+    if VENV_BIN.exists():
+        current_path = env.get("PATH", "")
+        env["PATH"] = f"{VENV_BIN}:{current_path}"
+    
+    _ENV_WITH_VENV = env
+    return env
+
 _MODEL_CACHE: dict[str, Any] = {}
 _MODEL_LOCK = threading.Lock()
 
@@ -271,7 +292,7 @@ class RunnerHandler(BaseHTTPRequestHandler):
                 capture_output=True,
                 text=True,
                 timeout=PROCESS_TIMEOUT_SECONDS,
-                env=os.environ.copy(),
+                env=_get_command_env(),
             )
             _json_response(
                 self,
