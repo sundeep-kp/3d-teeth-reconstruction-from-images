@@ -1,4 +1,5 @@
 import os, sys
+import subprocess
 import numpy as np
 import argparse
 
@@ -19,21 +20,32 @@ def recon(path, out_path, normal=False, rembg=False, real=False, cpu=8):
         pose='../meta_info/cond.pkl'
     else:
         real=''
+    
+    # Pass environment to subprocesses to ensure venv dependencies are available
+    env = os.environ.copy()
+    
     if normal:
         config='configs/neus-blender-normal.yaml'
-        os.system(f'python3 tools.py --input {img_path} --output {out_path} --pose {pose} --normal'+rembg+real)
+        cmd = f'python3 tools.py --input {img_path} --output {out_path} --pose {pose} --normal'+rembg+real
     else:
         config='configs/neus-blender.yaml'
-        os.system(f'python3 tools.py --input {img_path} --output {out_path} --pose {pose}'+rembg+real)
+        cmd = f'python3 tools.py --input {img_path} --output {out_path} --pose {pose}'+rembg+real
+    
+    # Execute tools.py with explicit environment
+    subprocess.run(cmd, shell=True, env=env, check=False)
     
     runs_dir=os.path.join(out_path,'log')
     exp_dir=out_path
     root_dir=out_path
     name=os.path.basename(path).split('.')[0]
+    
     if real:
-        os.system(f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} dataset.img_wh=[1024,1024] dataset.num_workers={cpu}')
+        cmd = f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} dataset.img_wh=[1024,1024] dataset.num_workers={cpu}'
     else:
-        os.system(f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} trainer.max_steps=60000 dataset.num_workers={cpu}')
+        cmd = f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} trainer.max_steps=60000 dataset.num_workers={cpu}'
+    
+    # Execute launch.py with explicit environment
+    subprocess.run(cmd, shell=True, env=env, check=False)
     
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
