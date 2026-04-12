@@ -80,7 +80,7 @@ if (hasRunner) {
     const recon = fields.reconDir.value.trim() || "../results/reconstruction";
 
     fields.cmdGenerate.value = [
-      "python TeethDreamer.py \\",
+      "python3 TeethDreamer.py \\",
       `  -b ${cfg} \\`,
       `  --gpus ${gpu} \\`,
       "  --test ckpt/TeethDreamer.ckpt \\",
@@ -89,7 +89,7 @@ if (hasRunner) {
     ].join("\n");
 
     fields.cmdUpper.value = [
-      "python run.py \\",
+      "python3 run.py \\",
       `  --img ../${out}/1832_upper_cond_000_000_000_000.png \\`,
       `  --cpu ${cpu} \\`,
       `  --dir ${recon} \\`,
@@ -98,7 +98,7 @@ if (hasRunner) {
     ].join("\n");
 
     fields.cmdLower.value = [
-      "python run.py \\",
+      "python3 run.py \\",
       `  --img ../${out}/1832_lower_cond_000_000_000_000.png \\`,
       `  --cpu ${cpu} \\`,
       `  --dir ${recon} \\`,
