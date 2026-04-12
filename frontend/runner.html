@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeethDreamer Runner</title>
+  <meta name="description" content="Dedicated command runner for TeethDreamer and NeUS reconstruction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/styles.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Oral Features Project</p>
+      <h1>TeethDreamer Command Runner</h1>
+    </div>
+    <nav>
+      <a href="./index.html">Landing</a>
+      <a href="#runner">Runner</a>
+      <a href="../readme.md">README</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="section-block" id="runner">
+      <div class="section-heading runner-heading">
+        <div>
+          <p class="section-label">Command Runner</p>
+          <h3>Run TeethDreamer and NeUS from a dedicated control panel</h3>
+        </div>
+        <div class="runner-status" id="runnerStatus">Runner endpoint not connected</div>
+      </div>
+
+      <div class="runner-card">
+        <h4>Runner Setup</h4>
+        <div class="runner-grid">
+          <label>
+            Runner Endpoint
+            <input id="endpoint" value="http://127.0.0.1:8787/run" />
+          </label>
+          <label>
+            Workspace Root
+            <input id="workspaceRoot" value="." />
+          </label>
+          <label>
+            GPU
+            <input id="gpu" value="0" />
+          </label>
+          <label>
+            CPU Threads
+            <input id="cpu" type="number" min="1" value="4" />
+          </label>
+          <label>
+            Test Dir
+            <input id="testDir" value="example/teeth" />
+          </label>
+          <label>
+            Output Dir
+            <input id="outputDir" value="results" />
+          </label>
+          <label>
+            Reconstruction Dir
+            <input id="reconDir" value="../results/reconstruction" />
+          </label>
+          <label>
+            TeethDreamer Config
+            <input id="dreamerCfg" value="configs/TeethDreamer.yaml" />
+          </label>
+        </div>
+        <label class="verbose-toggle">
+          <input id="verboseMode" type="checkbox" />
+          <span>Verbose output</span>
+        </label>
+        <p class="hint">Start backend with <code>python3 runner.py</code> or use <code>npm run dev</code> from repository root.</p>
+      </div>
+
+      <div class="runner-card">
+        <h4>1. Generate Strip (TeethDreamer)</h4>
+        <textarea id="cmdGenerate" spellcheck="false"></textarea>
+        <div class="runner-actions">
+          <button class="btn btn-primary runner-btn" data-cmd="cmdGenerate" data-cwd="workspace">Run Command</button>
+          <button class="btn btn-secondary runner-btn" data-copy="cmdGenerate">Copy</button>
+        </div>
+      </div>
+
+      <div class="runner-card">
+        <h4>2. NeUS Upper + rembg</h4>
+        <textarea id="cmdUpper" spellcheck="false"></textarea>
+        <div class="runner-actions">
+          <button class="btn btn-primary runner-btn" data-cmd="cmdUpper" data-cwd="instant">Run Command</button>
+          <button class="btn btn-secondary runner-btn" data-copy="cmdUpper">Copy</button>
+        </div>
+      </div>
+
+      <div class="runner-card">
+        <h4>3. NeUS Lower + rembg</h4>
+        <textarea id="cmdLower" spellcheck="false"></textarea>
+        <div class="runner-actions">
+          <button class="btn btn-primary runner-btn" data-cmd="cmdLower" data-cwd="instant">Run Command</button>
+          <button class="btn btn-secondary runner-btn" data-copy="cmdLower">Copy</button>
+          <button class="btn btn-secondary runner-btn" id="runAll">Run All Sequentially</button>
+        </div>
+      </div>
+
+      <div class="runner-card">
+        <h4>Execution Log</h4>
+        <div class="runner-terminal" id="terminal"></div>
+        <div class="runner-actions">
+          <button class="btn btn-secondary runner-btn" id="clearLog">Clear Log</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Visual Characteristics of Oral Features</p>
+    <a href="./index.html">Back to landing page</a>
+  </footer>
+
+  <script src="./static/app.js"></script>
+</body>
+</html>

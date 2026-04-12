@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Characteristics of Oral Features</title>
+  <meta name="description" content="A modern frontend for oral condition classification and 3D reconstruction research." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/styles.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Oral Features Project</p>
+      <h1>Visual Characteristics of Oral Features</h1>
+    </div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#models">Models</a>
+      <a href="#visuals">Visuals</a>
+      <a href="#predictor">Predictor</a>
+      <a href="./runner.html">Runner</a>
+      <a href="#reconstruction">3D</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="pill">Classify tooth conditions from images</p>
+        <h2>Machine learning for oral condition analysis, with 3D reconstruction as an advanced extension.</h2>
+        <p class="lede">
+          This frontend presents the project workflow from image preprocessing and classical ML baselines to evaluation,
+          visual reporting, and the TeethDreamer 3D reconstruction extension.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#models">Explore models</a>
+          <a class="btn btn-secondary" href="#pipeline">View pipeline</a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <span>3</span>
+            <label>ML classifiers</label>
+          </div>
+          <div class="metric-card">
+            <span>5</span>
+            <label>Intra-oral photos</label>
+          </div>
+          <div class="metric-card">
+            <span>1</span>
+            <label>3D extension</label>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="panel-card panel-card-main">
+          <div class="panel-header">
+            <span class="status-dot"></span>
+            <span>Project Snapshot</span>
+          </div>
+          <h3>Healthy, Cavity, Misaligned</h3>
+          <p>
+            The project is structured to classify tooth conditions from images, compare KNN / Decision Tree / Naive Bayes,
+            and provide a clear upgrade path into reconstruction.
+          </p>
+        </div>
+        <div class="panel-grid">
+          <div class="panel-card small">
+            <span>Preprocess</span>
+            <strong>Resize + grayscale + flatten</strong>
+          </div>
+          <div class="panel-card small">
+            <span>Evaluate</span>
+            <strong>Accuracy, Precision, Recall, F1</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="feature-strip" id="overview">
+      <article>
+        <p class="section-label">Problem Statement</p>
+        <h3>Classify tooth conditions from oral images.</h3>
+        <p>The core objective is to label images as Healthy, Cavity, or Misaligned using lightweight machine learning methods.</p>
+      </article>
+      <article>
+        <p class="section-label">Dataset</p>
+        <h3>Image folders per class, processed into feature vectors.</h3>
+        <p>The pipeline assumes class-organized raw images and produces a processed tabular dataset for classical ML.</p>
+      </article>
+      <article>
+        <p class="section-label">Extension</p>
+        <h3>3D reconstruction remains available as a higher-level module.</h3>
+        <p>When needed, the repository also supports reconstruction workflows through the existing TeethDreamer stack.</p>
+      </article>
+    </section>
+
+    <section class="section-block" id="pipeline">
+      <div class="section-heading">
+        <p class="section-label">ML Pipeline</p>
+        <h3>From raw image to reportable result</h3>
+      </div>
+      <div class="pipeline-grid">
+        <div class="step-card">
+          <span>01</span>
+          <h4>Data Ingestion</h4>
+          <p>Load images from the class folders under `data/raw`.</p>
+        </div>
+        <div class="step-card">
+          <span>02</span>
+          <h4>Preprocessing</h4>
+          <p>Resize to 64×64, convert to grayscale, and flatten into feature vectors.</p>
+        </div>
+        <div class="step-card">
+          <span>03</span>
+          <h4>Training</h4>
+          <p>Fit KNN, Decision Tree, and Naive Bayes on the training split.</p>
+        </div>
+        <div class="step-card">
+          <span>04</span>
+          <h4>Evaluation</h4>
+          <p>Measure weighted accuracy, precision, recall, and F1-score.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="models">
+      <div class="section-heading">
+        <p class="section-label">Models Used</p>
+        <h3>Baseline classifiers with an interpretable comparison view</h3>
+      </div>
+
+      <div class="tabbar" role="tablist" aria-label="Model selector">
+        <button class="tab active" data-model="knn" role="tab" aria-selected="true">KNN</button>
+        <button class="tab" data-model="tree" role="tab" aria-selected="false">Decision Tree</button>
+        <button class="tab" data-model="bayes" role="tab" aria-selected="false">Naive Bayes</button>
+      </div>
+
+      <div class="model-panels">
+        <article class="model-card active" data-panel="knn">
+          <div class="model-top">
+            <p class="section-label">KNN</p>
+            <span class="chip">k = 3</span>
+          </div>
+          <h4>Simple neighborhood-based baseline</h4>
+          <p>Useful as a sanity check when the dataset is small and class boundaries are locally structured.</p>
+          <ul>
+            <li>Fast to train</li>
+            <li>Easy to explain</li>
+            <li>Good baseline for image features</li>
+          </ul>
+        </article>
+
+        <article class="model-card" data-panel="tree">
+          <div class="model-top">
+            <p class="section-label">Decision Tree</p>
+            <span class="chip">Interpretable</span>
+          </div>
+          <h4>Rule-based model for decision tracing</h4>
+          <p>Supports human-readable comparisons and feature-importance visualizations in the results folder.</p>
+          <ul>
+            <li>Simple decision path</li>
+            <li>Feature importance available</li>
+            <li>Useful for presentations</li>
+          </ul>
+        </article>
+
+        <article class="model-card" data-panel="bayes">
+          <div class="model-top">
+            <p class="section-label">Naive Bayes</p>
+            <span class="chip">Probabilistic</span>
+          </div>
+          <h4>Compact probabilistic classifier</h4>
+          <p>Provides a lightweight statistical baseline that can be compared directly against the other models.</p>
+          <ul>
+            <li>Low computational cost</li>
+            <li>Strong baseline behavior</li>
+            <li>Useful on simple feature spaces</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block" id="visuals">
+      <div class="section-heading">
+        <p class="section-label">Visualizations</p>
+        <h3>Sample outputs from the project assets</h3>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-item wide">
+          <img src="../imgs/teaser.png" alt="Project teaser" />
+          <figcaption>Project teaser and overall concept</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="../imgs/method.png" alt="Method diagram" />
+          <figcaption>Pipeline / method overview</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="../imgs/generation.png" alt="Generation results" />
+          <figcaption>Generated views</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="../imgs/surface.png" alt="Surface reconstruction" />
+          <figcaption>Surface reconstruction output</figcaption>
+        </figure>
+        <figure class="gallery-item wide">
+          <img src="../imgs/comparison.png" alt="Comparison figure" />
+          <figcaption>Comparison figure for report and presentation use</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section-block ethics-block" id="ethics">
+      <div class="section-heading">
+        <p class="section-label">Ethical Considerations</p>
+        <h3>Practical notes for research use</h3>
+      </div>
+      <div class="ethics-grid">
+        <div class="ethics-card">
+          <h4>Privacy</h4>
+          <p>Remove patient identifiers before storage or training and keep access limited to the project scope.</p>
+        </div>
+        <div class="ethics-card">
+          <h4>Fairness</h4>
+          <p>Check whether model performance changes across classes or demographics and report those gaps clearly.</p>
+        </div>
+        <div class="ethics-card">
+          <h4>Transparency</h4>
+          <p>Document the dataset source, preprocessing assumptions, and known limitations in the README and notebooks.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="predictor">
+      <div class="section-heading">
+        <p class="section-label">Disease Predictor</p>
+        <h3>Checkbox symptom form for probable dental disease ranking</h3>
+      </div>
+
+      <div class="predictor-shell">
+        <form id="predictForm" class="predictor-card" autocomplete="off">
+          <div class="predictor-toprow">
+            <label>
+              Prediction Model
+              <select id="predictModel">
+                <option value="dt">Decision Tree (default)</option>
+                <option value="nb">Naive Bayes</option>
+                <option value="knn">KNN</option>
+              </select>
+            </label>
+            <label>
+              API Endpoint
+              <input id="predictEndpoint" value="http://127.0.0.1:8787/predict-disease" />
+            </label>
+          </div>
+
+          <p class="hint">Select all symptoms that apply, then run prediction. Disease severity has higher impact than confidence in danger rank.</p>
+
+          <div id="symptomGrid" class="symptom-grid"></div>
+
+          <div class="predictor-actions">
+            <button class="btn btn-primary" type="submit">Predict Disease</button>
+            <button class="btn btn-secondary" id="clearSymptoms" type="button">Clear Symptoms</button>
+          </div>
+        </form>
+
+        <div class="predictor-card">
+          <h4>Prediction Output</h4>
+          <div id="predictError" class="error-message" style="display: none;"></div>
+          <div id="predictLoading" class="success-message" style="display: none;">Processing symptoms <span class="loading"></span></div>
+
+          <div id="predictResults" class="predict-results" style="display: none;">
+            <article class="predict-main-card">
+              <p class="section-label">Top Disease</p>
+              <h4 id="topDisease">-</h4>
+              <p id="topConfidenceText" class="predict-muted">Confidence: -</p>
+              <div class="confidence-bar-track">
+                <div id="topConfidenceBar" class="confidence-bar-fill" style="width: 0%;"></div>
+              </div>
+            </article>
+
+            <article class="predict-danger-card">
+              <p class="section-label">Danger Rank</p>
+              <h4 id="dangerLabel">-</h4>
+              <p id="dangerScoreText" class="predict-muted">Score: -</p>
+              <span id="dangerBadge" class="danger-badge">-</span>
+            </article>
+
+            <article class="predict-alt-card">
+              <p class="section-label">Other Probable Diseases</p>
+              <ul id="alternativesList" class="alternatives-list"></ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="runner">
+      <div class="section-heading">
+        <p class="section-label">Command Runner</p>
+        <h3>Launch the dedicated pipeline runner page</h3>
+      </div>
+      <div class="reconstruction-card">
+        <div>
+          <h4>Separate Control Surface</h4>
+          <p>
+            Command execution is now isolated on its own page so this landing view stays focused on project context,
+            while the runner page handles setup, command execution, and terminal logs.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="./runner.html">Open Runner Page</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block reconstruction-block" id="reconstruction">
+      <div class="section-heading">
+        <p class="section-label">Advanced Extension</p>
+        <h3>3D reconstruction module</h3>
+      </div>
+      <div class="reconstruction-card">
+        <div>
+          <h4>TeethDreamer / Neus workflow</h4>
+          <p>
+            The repository already includes the dedicated 3D reconstruction stack. This frontend presents that work as an
+            optional extension to the image-classification pipeline.
+          </p>
+        </div>
+        <div class="reconstruction-badges">
+          <span>Input images</span>
+          <span>Segmentation</span>
+          <span>Rendering</span>
+          <span>Reconstruction</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Visual Characteristics of Oral Features</p>
+    <a href="../readme.md">Project README</a>
+  </footer>
+
+  <script src="./static/app.js"></script>
+</body>
+</html>

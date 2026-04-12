@@ -77,6 +77,39 @@ Explanation:
 - `--normal` indicates the generation includes normal images
 - `--rembg` indicates background removement (The foreground mask is necessary here)
 
+### Web Interface with Disease Predictor
+
+To use the integrated web interface with command orchestration and disease predictor:
+
+1. Install Node dependencies:
+```bash
+npm install
+```
+
+2. Start the frontend and backend together:
+```bash
+npm run dev
+```
+
+3. Access the interface:
+- **Landing page**: `http://127.0.0.1:3000/frontend/index.html` (includes disease predictor)
+- **Runner page**: `http://127.0.0.1:3000/frontend/runner.html` (command orchestrator)
+
+#### Disease Predictor
+
+The landing page includes a machine learning-based dental disease predictor that:
+- Accepts 26 dental symptoms as checkbox input
+- Returns predicted disease with confidence score
+- Provides alternative diseases ranked by probability
+- Assigns a weighted danger rank based on disease severity and prediction confidence
+
+Models available:
+- Decision Tree (fastest)
+- Naive Bayes (most accurate, 93.2%)
+- K-Nearest Neighbors (91.8%)
+
+For more details, see [frontend/README.md](frontend/README.md).
+
 ### Data Preparation for Training
 1. Make sure you have normalized tooth models which are segmented from intra-oral scanning models.
 2. Render color and normal images by blender scripts. We test following scripts on Windows with Blender 4.0.1

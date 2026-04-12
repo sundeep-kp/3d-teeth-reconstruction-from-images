@@ -1,0 +1,13 @@
+{
+  "name": "teethdreamer-runner-ui",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c green,cyan \"python3 runner.py\" \"http-server . -p 3000 -c-1\"",
+    "dev:backend": "python3 runner.py",
+    "dev:frontend": "http-server . -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "http-server": "^14.1.1"
+  }
+}
