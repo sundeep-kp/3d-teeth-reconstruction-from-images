@@ -1,5 +1,6 @@
 import os, sys
 import subprocess
+from pathlib import Path
 import numpy as np
 import argparse
 
@@ -21,8 +22,12 @@ def recon(path, out_path, normal=False, rembg=False, real=False, cpu=8):
     else:
         real=''
     
-    # Pass environment to subprocesses to ensure venv dependencies are available
+    # Ensure venv/bin is in PATH for subprocess calls
     env = os.environ.copy()
+    venv_bin = Path(__file__).resolve().parents[1] / "venv" / "bin"
+    if venv_bin.exists():
+        current_path = env.get("PATH", "")
+        env["PATH"] = f"{venv_bin}:{current_path}"
     
     if normal:
         config='configs/neus-blender-normal.yaml'
@@ -31,7 +36,7 @@ def recon(path, out_path, normal=False, rembg=False, real=False, cpu=8):
         config='configs/neus-blender.yaml'
         cmd = f'python3 tools.py --input {img_path} --output {out_path} --pose {pose}'+rembg+real
     
-    # Execute tools.py with explicit environment
+    # Execute tools.py with explicit environment including venv/bin
     subprocess.run(cmd, shell=True, env=env, check=False)
     
     runs_dir=os.path.join(out_path,'log')
@@ -44,7 +49,7 @@ def recon(path, out_path, normal=False, rembg=False, real=False, cpu=8):
     else:
         cmd = f'python3 launch.py --config {config} --gpu 0 --train --runs_dir={runs_dir} dataset.scene={name} dataset.root_dir={root_dir} trial_name=neus exp_dir={exp_dir} trainer.max_steps=60000 dataset.num_workers={cpu}'
     
-    # Execute launch.py with explicit environment
+    # Execute launch.py with explicit environment including venv/bin
     subprocess.run(cmd, shell=True, env=env, check=False)
     
 if __name__=='__main__':
